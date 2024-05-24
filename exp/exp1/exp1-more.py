@@ -34,26 +34,30 @@ def get_pages(keyword, city, start, end):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     browser = webdriver.Chrome(options=chrome_options)
-    browser.maximize_window()
+    # wait 10s if necessary
+    browser.implicitly_wait(10)
+    # browser.maximize_window()
 
     # 通过get()函数控制浏览器发起请求，访问网址,获取源码
     url = 'https://www.51job.com/'
     browser.get(url)
     #模拟人操作浏览器，输入搜索关键词，点击搜索按钮
     browser.find_element(By.XPATH, '//*[@id="kwdselectid"]').clear()
-    browser.find_element(By.XPATH, '//*[@id="kwdselectid"]').send_keys(keyword)
+    browser.find_element(By.XPATH, '//*[@id="kwdselectid"]').send_keys(keyword + ' ' + city)
     browser.find_element(By.XPATH, '/html/body/div[3]/div/div[1]/div/button').click()
 
-    time.sleep(10)
+    # time.sleep(10)
     all_data = pd.DataFrame()
     for page in range(start, end + 1):
         # 模拟人操作浏览器，输入搜索关键词，点击搜索按钮
-        browser.find_element(By.XPATH, '//*[@id="jump_page"]').clear()
-        browser.find_element(By.XPATH, '//*[@id="jump_page"]').send_keys(page)
-        browser.find_element(By.XPATH, '//*[@id="app"]/div/div[2]/div/div/div[2]/div/div[2]/div/div[3]/div/div/span[3]').click()
+        time.sleep(3)
+        browser.find_element(By.CLASS_NAME, 'mytxt').clear()
+        browser.find_element(By.CLASS_NAME, 'mytxt').send_keys(page)
+        browser.find_element(By.CLASS_NAME, 'jumpPage').click()
         # 等待浏览器与服务器交互刷新数据，否则获取不到动态信息
-        time.sleep(10)
+        # time.sleep(10)
         #将提取的目标数据添加到DataFrame中
+        print(extract_data(browser.page_source))
         all_data = all_data.append(extract_data(browser.page_source))
 
     browser.quit()

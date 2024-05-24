@@ -6,9 +6,9 @@ wd.implicitly_wait(10)
 
 wd.get('https://www.byhy.net/_files/stock1.html')
 
-element1 = wd.find_element(By.ID, 'kw')
+# element1 = wd.find_element(By.ID, 'kw')
 
-element1.send_keys('通讯\n')
+# element1.send_keys('通讯\n')
 
 element2 = wd.find_element(By.ID, '1')
 
