@@ -9,7 +9,7 @@ element = wd.find_element(By.ID, 'kw')
 
 element.send_keys('通讯')
 
-element1 = wd.find_element(By.id, 'go')
+element1 = wd.find_element(By.ID, 'go')
 element.click()
 
 wd.quit()
