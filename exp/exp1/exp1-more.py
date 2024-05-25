@@ -8,13 +8,13 @@ import time
 #从获取的网页源代码中提取目标数据
 def extract_data(html_code):
     #目标数据的正则表达式
-    p_job = 'class="jname at">(.*?)</span>'
-    p_salary = 'class="sal">(.*?)</span>'
-    p_needs_city =  'class="info">.*?class="d at">.*?>(.*?)</span>'
-    p_needs_exp =   'class="info">.*?class="d at">.*?>.*?</span>.*?</span>.*?>(.*?)</span>'
-    p_needs_xueli = 'class="info">.*?class="d at">.*?>.*?</span>.*?</span>.*?</span>.*?</span>.*?>(.*?)</span>'
-    p_link = 'class="er">.*?href="(.*?)"'
-    p_company = 'class="er">.*?title="(.*?)".*?</a>'
+    p_job = 'class="jname text-cut">(.*?)</span>'
+    p_salary = 'class="sal shrink-0">(.*?)</span>'
+    p_needs_city =  '&quot;jobArea&quot;:&quot;(.*?)&quot;,&quot;'
+    p_needs_exp =   'jobYear&quot;:&quot;(.*?)&quot;,'
+    p_needs_xueli = 'jobDegree&quot;:&quot;(.*?)&quot;,&quot;'
+    p_link = '<a data-v-3494039c="" href="(.*?)" target="_blank" '
+    p_company = 'class="cname text-cut"> (.*?) </a>'
 
     #利用findall()函数提取目标数据
     job = re.findall(p_job, html_code, re.S)
@@ -43,7 +43,7 @@ def get_pages(keyword, city, start, end):
     browser.get(url)
     #模拟人操作浏览器，输入搜索关键词，点击搜索按钮
     browser.find_element(By.XPATH, '//*[@id="kwdselectid"]').clear()
-    browser.find_element(By.XPATH, '//*[@id="kwdselectid"]').send_keys(keyword + ' ' + city)
+    browser.find_element(By.XPATH, '//*[@id="kwdselectid"]').send_keys(keyword)
     browser.find_element(By.XPATH, '/html/body/div[3]/div/div[1]/div/button').click()
 
     # time.sleep(10)
@@ -57,8 +57,10 @@ def get_pages(keyword, city, start, end):
         # 等待浏览器与服务器交互刷新数据，否则获取不到动态信息
         # time.sleep(10)
         #将提取的目标数据添加到DataFrame中
-        print(extract_data(browser.page_source))
-        all_data = all_data.append(extract_data(browser.page_source))
+        # print(extract_data(browser.page_source))
+        # all_data = all_data.append(extract_data(browser.page_source))
+        all_data = pd.concat([all_data, extract_data(browser.page_source)])
+        # extract_data(browser, browser.page_source)
 
     browser.quit()
 

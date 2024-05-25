@@ -13,4 +13,4 @@ workout.index = ['day1', 'day2', 'day3', 'day4',]
 
 workout = workout.rename(columns={'calories':'Cal'})
 
-print(workout.at['day1', 'Cal'])
+print(workout)
