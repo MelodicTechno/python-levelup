@@ -55,3 +55,4 @@ for ax in axes:
     ax.axis("off")
 fig.subplots_adjust(0, 0, 1, 1, 0, 0)
 pl.show()
+fig.savefig(r'exp\exp3\solution.jpg')
