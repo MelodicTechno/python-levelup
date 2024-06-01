@@ -97,9 +97,6 @@ plt.savefig(r'exp\exp4\output\two_function.jpg')
 # plt.show()
 
 
-
-
-
 # ### 等值线图
 #%fig=用contour(左)和contourf(右)描绘等值线图
 y, x = np.ogrid[-2:2:200j, -3:3:300j] #❶
@@ -160,10 +157,10 @@ X, Y = np.mgrid[-2:2:20j, -2:2:20j]
 C = f(X, Y)
 U, V = vec_field(f, X, Y)
 plt.quiver(X, Y, U, V, C)
-plt.colorbar();
+plt.colorbar()
 plt.gca().set_aspect("equal")
 plt.savefig(r'exp\exp4\output\arrows.jpg')
-# plt.show()
+plt.show()
 
 
 #%fig=使用箭头表示参数曲线的切线方向
