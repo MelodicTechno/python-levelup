@@ -14,30 +14,26 @@ for ax, fname in zip(axes.ravel(), functions):
     func = getattr(ax, fname)
     func(w, p, linewidth=2)
     ax.set_ylim(0, 1.5)
+fig.savefig(r'exp\exp4\output\wave.jpg', dpi='figure')
 plt.show()
-
-
-
 
 # ### 柱状图
 #%fig=中国男女人口的年龄分布图
-data = np.loadtxt("china_population.txt")
+data = np.loadtxt(r'exp\exp4\china_population.txt')
 width = (data[1,0] - data[0,0])*0.4 #❶
 plt.figure(figsize=(8, 4))
 plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
 #c1, c2 = plt.rcParams['axes.prop_cycle'][:2]
-c1='red'
-c2='blue'
+c1='lightcoral'
+c2='lightsteelblue'
 plt.bar(data[:,0]-width, data[:,1]/1e7, width, color=c1, label=u"男") #❷
 plt.bar(data[:,0], data[:,2]/1e7, width, color=c2, label=u"女") #❸
 plt.xlim(-width*1.5, 100)
 plt.xlabel(u"年龄")
 plt.ylabel(u"人口（千万）")
 plt.legend()
+plt.savefig(r'exp\exp4\output\population.jpg', dpi='figure')
 plt.show()
-
-
-
 
 
 # ### 散列图
@@ -49,16 +45,17 @@ plt.scatter(x, y, s=x*1000, c=y, marker=(5, 1),
             alpha=0.8, lw=2, facecolors="none")
 plt.xlim(0, 1)
 plt.ylim(0, 1)
+plt.savefig(r'exp\exp4\output\scatter.jpg', dpi='figure')
 plt.show()
 
 
 
 # ### 图像
-img = plt.imread("lena.jpg")
+img = plt.imread(r'exp\exp4\ar15.png')
 print(img.shape, img.dtype)
 
 #%fig=用imread()和imshow()显示图像
-img = plt.imread("lena.jpg")
+img = plt.imread(r'exp\exp4\ar15.png')
 fig, axes = plt.subplots(2, 4, figsize=(11, 4))
 fig.subplots_adjust(0, 0, 1, 1, 0.05, 0.05)
 axes = axes.ravel()
@@ -76,10 +73,11 @@ plt.colorbar(axe_img, ax=axes[6])
 
 for ax in axes:
     ax.set_axis_off()
+plt.savefig(r'exp\exp4\output\ar15.jpg')
 
 import matplotlib.cm as cm
-cmap_names = list(cm.cmap_d.keys())
-print(cmap_names[:5])
+# cmap_names = list(cm.cmap_d.keys())
+# print(cmap_names[:5])
 
 #%fig=使用imshow()可视化二元函数
 y, x = np.ogrid[-2:2:200j, -2:2:200j]
@@ -94,6 +92,7 @@ plt.colorbar()
 plt.subplot(122)
 plt.imshow(z, extent=extent, cmap=cm.gray, origin="lower")
 plt.colorbar()
+plt.savefig(r'exp\exp4\output\two_function.jpg')
 plt.show()
 
 
@@ -114,6 +113,7 @@ cs = plt.contour(z, 10, extent=extent) #❷
 plt.clabel(cs) #❸
 plt.subplot(122)
 plt.contourf(x.reshape(-1), y.reshape(-1), z, 20) #❹;
+plt.savefig(r'exp\exp4\output\equal_line.jpg')
 
 
 #  **TIP**
@@ -138,6 +138,7 @@ for c in cs.collections: #❷
     plt.plot(data[:,0], data[:,1], 
         color=c_s[i], linewidth=c.get_linewidth()[0])
     i=i+1
+plt.savefig(r'exp\exp4\output\tip.jpg')
 plt.show()
 
 
@@ -162,6 +163,7 @@ U, V = vec_field(f, X, Y)
 plt.quiver(X, Y, U, V, C)
 plt.colorbar();
 plt.gca().set_aspect("equal")
+plt.savefig(r'exp\exp4\output\arrows.jpg')
 plt.show()
 
 
@@ -193,6 +195,7 @@ plt.quiver(x[index], y[index], dx, dy, t[index],
 plt.colorbar()
 plt.xlim([-1.5, 1.5])
 plt.ylim([-1.5, 1.5])
+plt.savefig(r'exp\exp4\output\arrows_with_directions.jpg')
 plt.show()
 
 #%fig=使用quiver()绘制神经网络结构示意图
@@ -216,6 +219,7 @@ xp = np.repeat(x, levels)
 plt.plot(xp, yp, "o", ms=12)
 plt.gca().axis("off")
 plt.margins(0.1, 0.1)
+plt.savefig(r'exp\exp4\output\nu.jpg')
 plt.show()
 
 
@@ -232,4 +236,5 @@ ax.plot_surface(x, y, z, rstride=2, cstride=1, cmap = plt.cm.Blues_r) #❹
 ax.set_xlabel("X")
 ax.set_ylabel("Y")
 ax.set_zlabel("Z")
+plt.savefig(r'exp\exp4\output\three_d.jpg')
 plt.show()
