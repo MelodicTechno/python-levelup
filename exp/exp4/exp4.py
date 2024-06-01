@@ -1,5 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
+
+plt.rcParams['savefig.dpi'] = 300
 # ## 绘图函数简介
 
 # ### 对数坐标图
@@ -14,8 +16,8 @@ for ax, fname in zip(axes.ravel(), functions):
     func = getattr(ax, fname)
     func(w, p, linewidth=2)
     ax.set_ylim(0, 1.5)
-fig.savefig(r'exp\exp4\output\wave.jpg', dpi='figure')
-plt.show()
+plt.savefig(r'exp\exp4\output\wave.jpg')
+# plt.show()
 
 # ### 柱状图
 #%fig=中国男女人口的年龄分布图
@@ -24,7 +26,7 @@ width = (data[1,0] - data[0,0])*0.4 #❶
 plt.figure(figsize=(8, 4))
 plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
 #c1, c2 = plt.rcParams['axes.prop_cycle'][:2]
-c1='lightcoral'
+c1='pink'
 c2='lightsteelblue'
 plt.bar(data[:,0]-width, data[:,1]/1e7, width, color=c1, label=u"男") #❷
 plt.bar(data[:,0], data[:,2]/1e7, width, color=c2, label=u"女") #❸
@@ -32,8 +34,8 @@ plt.xlim(-width*1.5, 100)
 plt.xlabel(u"年龄")
 plt.ylabel(u"人口（千万）")
 plt.legend()
-plt.savefig(r'exp\exp4\output\population.jpg', dpi='figure')
-plt.show()
+plt.savefig(r'exp\exp4\output\population.jpg')
+# plt.show()
 
 
 # ### 散列图
@@ -46,8 +48,7 @@ plt.scatter(x, y, s=x*1000, c=y, marker=(5, 1),
 plt.xlim(0, 1)
 plt.ylim(0, 1)
 plt.savefig(r'exp\exp4\output\scatter.jpg', dpi='figure')
-plt.show()
-
+# plt.show()
 
 
 # ### 图像
@@ -93,7 +94,7 @@ plt.subplot(122)
 plt.imshow(z, extent=extent, cmap=cm.gray, origin="lower")
 plt.colorbar()
 plt.savefig(r'exp\exp4\output\two_function.jpg')
-plt.show()
+# plt.show()
 
 
 
@@ -139,9 +140,7 @@ for c in cs.collections: #❷
         color=c_s[i], linewidth=c.get_linewidth()[0])
     i=i+1
 plt.savefig(r'exp\exp4\output\tip.jpg')
-plt.show()
-
-
+# plt.show()
 
 
 # ### 箭头图
@@ -164,7 +163,7 @@ plt.quiver(X, Y, U, V, C)
 plt.colorbar();
 plt.gca().set_aspect("equal")
 plt.savefig(r'exp\exp4\output\arrows.jpg')
-plt.show()
+# plt.show()
 
 
 #%fig=使用箭头表示参数曲线的切线方向
@@ -196,7 +195,8 @@ plt.colorbar()
 plt.xlim([-1.5, 1.5])
 plt.ylim([-1.5, 1.5])
 plt.savefig(r'exp\exp4\output\arrows_with_directions.jpg')
-plt.show()
+# plt.show()
+
 
 #%fig=使用quiver()绘制神经网络结构示意图
 plt.figure(figsize=(7, 4))
@@ -220,8 +220,7 @@ plt.plot(xp, yp, "o", ms=12)
 plt.gca().axis("off")
 plt.margins(0.1, 0.1)
 plt.savefig(r'exp\exp4\output\nu.jpg')
-plt.show()
-
+# plt.show()
 
 
 # ### 三维绘图
@@ -237,4 +236,4 @@ ax.set_xlabel("X")
 ax.set_ylabel("Y")
 ax.set_zlabel("Z")
 plt.savefig(r'exp\exp4\output\three_d.jpg')
-plt.show()
+# plt.show()
