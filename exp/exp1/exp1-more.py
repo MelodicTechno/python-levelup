@@ -49,7 +49,6 @@ def get_pages(keyword, city, start, end):
     browser.find_element(By.XPATH, '/html/body/div[3]/div/div[1]/div/button').click()
     
     # time.sleep(10)
-    all_data = pd.DataFrame()
     data_list = []
     for page in range(start, end + 1):
         # 模拟人操作浏览器，输入搜索关键词，点击搜索按钮
@@ -57,37 +56,33 @@ def get_pages(keyword, city, start, end):
         time.sleep(5)
         browser.find_element(By.CLASS_NAME, 'mytxt').clear()
         browser.find_element(By.CLASS_NAME, 'mytxt').send_keys(page)
-        time.sleep(10)
+        # time.sleep(10)
         browser.find_element(By.CLASS_NAME, 'jumpPage').click()
         # 等待浏览器与服务器交互刷新数据，否则获取不到动态信息
-        # time.sleep(10)
+        time.sleep(10)
         #将提取的目标数据添加到DataFrame中
-        # print(extract_data(browser.page_source))
-        # all_data = all_data.append(extract_data(browser.page_source))
-        work_info_list = []
-        # for i in range(1, 19):
-        #     xpath = f'//*[@id="app"]/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div[1]/div[{i}]/div[2]/div[1]/span[1]'
-        #     link = browser.find_element(By.XPATH, xpath)
-        #     original_window = browser.current_window_handle
+        all_data = pd.concat([extract_data(browser.page_source)])
+        for i in range(1, 19):
+            xpath = f'//*[@id="app"]/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div[1]/div[{i}]/div[2]/div[1]/span[1]'
+            link = browser.find_element(By.XPATH, xpath)
+            original_window = browser.current_window_handle
             
-        #     link.click()
-        #     browser.switch_to.window(browser.window_handles[1])
-        #     time.sleep(3)
-        #     info_html = browser.page_source
-        #     p_info = '<div class="bmsg job_msg inbox">\n(.*?)<a track-type="NewTrackButtonClick"'
-        #     info = re.findall(p_info, info_html, re.S)
-        #     work_info_list = info
-        #     browser.close()
-        #     browser.switch_to.window(original_window)
-        # browser.switch_to.window(pre_window)
-        new_data = extract_data(browser.page_source)
-        # all_data = pd.concat([all_data, new_data])
-        data_list.append(new_data)
-        # extract_data(browser, browser.page_source)
-    all_data = pd.concat(data_list)
+            link.click()
+            browser.switch_to.window(browser.window_handles[1])
+            time.sleep(5)
+            info_html = browser.page_source
+            p_info = '<div class="bmsg job_msg inbox">\n(.*?)<a track-type="NewTrackButtonClick"'
+            info = re.findall(p_info, info_html, re.S)
+            data_list.append(info)
+            browser.close()
+            browser.switch_to.window(original_window)
+    work_info = {"职位信息": data_list}
+    work_info = pd.DataFrame(work_info)
+    all_data = pd.concat([all_data, extract_data(browser.page_source)])
+    all_data = pd.concat([all_data, work_info])
     browser.quit()
 
     #将DataFrame保存为Excel
     all_data.to_excel('职位.xlsx', index=False)
 
-get_pages('python','西安', 1, 3)
+get_pages('python','西安', 1, 1)
