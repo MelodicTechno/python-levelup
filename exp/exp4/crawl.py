@@ -5,7 +5,7 @@ import time
 import pandas as pd
 
 wd = webdriver.Chrome()
-# wd.get(r'https://data.stats.gov.cn/easyquery.htm?cn=C01&zb=A030602&sj=2023')
+wd.get(r'https://data.stats.gov.cn/easyquery.htm?cn=C01&zb=A030602&sj=2023')
 
 time.sleep(3)
 
