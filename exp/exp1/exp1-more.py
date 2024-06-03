@@ -14,7 +14,7 @@ def extract_data(the_browser, html_code):
     p_needs_city =  '&quot;jobArea&quot;:&quot;(.*?)&quot;,&quot;'
     p_needs_exp =   'jobYear&quot;:&quot;(.*?)&quot;,'
     p_needs_xueli = 'jobDegree&quot;:&quot;(.*?)&quot;,&quot;'
-    p_link = '<a data-v-3494039c href="(.*?)" target="_blank" '
+    p_link = '<a data-v-3494039c="" href="(.*?)" target="_blank" title="'
     p_company = 'class="cname text-cut"> (.*?) </a>'
 
     #利用findall()函数提取目标数据

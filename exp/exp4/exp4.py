@@ -160,7 +160,7 @@ plt.quiver(X, Y, U, V, C)
 plt.colorbar()
 plt.gca().set_aspect("equal")
 plt.savefig(r'exp\exp4\output\arrows.jpg')
-plt.show()
+# plt.show()
 
 
 #%fig=使用箭头表示参数曲线的切线方向
@@ -207,15 +207,21 @@ for i in range(len(levels) - 1):
     x1 = np.full_like(y1, x[i])
     x2 = np.full_like(y2, x[j])
     plt.quiver(x1, y1, x2-x1, y2-y1, 
-              angles="xy", units="dots", scale_units="xy", 
-              scale=1, width=2, headlength=10,
-              headaxislength=10, headwidth=4)
+              angles="xy", units="xy", scale_units="xy", 
+              scale=1, width=0.005, headlength=10,
+              headaxislength=10, headwidth=4, color='lightsteelblue')
+    # plt.quiver(x1, y1, x2-x1, y2-y1, 
+    #           angles="xy", units="xy", scale_units="xy", 
+    #           scale=1, width=0.005, headlength=10,
+    #           headaxislength=10, headwidth=4)
     
 yp = np.concatenate([np.linspace(0, 1, n) for n in levels])
 xp = np.repeat(x, levels)
 plt.plot(xp, yp, "o", ms=12)
 plt.gca().axis("off")
 plt.margins(0.1, 0.1)
+# plt.draw()
+# plt.savefig(r'exp\exp4\output\nu.jpg', format='jpg', dpi=300, bbox_inches='tight')
 plt.savefig(r'exp\exp4\output\nu.jpg')
 # plt.show()
 
