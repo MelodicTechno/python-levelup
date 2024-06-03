@@ -8,6 +8,7 @@ import wordcloud
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.pyplot as plt
+import multidict
 
 # jieba.suggest_freq('n', False)
 # jieba.suggest_freq('和', False)
@@ -55,14 +56,28 @@ print('过滤停用词后', type(outstr), outstr)
 outstr = jieba.lcut(outstr)
 outstr = ' '.join(outstr)
 print('再次分词后', type(outstr), outstr)
+
+# add to dict
+fullTermsDict = multidict.MultiDict()
+tmpDict = {}
+
+for text in outstr.split(' '):
+    if re.match('和|的|者|n|关键字', text):
+        continue
+    val = tmpDict.get(text, 0)
+    tmpDict[text] = val + 1
+for key in tmpDict:
+    fullTermsDict.add(key, tmpDict[key])
+    
 #生成词云图
 #设置词云使用的字体
 # font = r'C:\Windows\Fonts\simsun.ttc'
 # wc = WordCloud(font_path=font, width=2400, height=1200, max_words=100)
-wc = WordCloud(width=2400, height=1200, max_words=100)
 ar15 = np.array(Image.open(r'exp/exp4/ar15.png'))
-ar15_colors = wordcloud.ImageColorGenerator(ar15)
-wc.generate(outstr)
+
+wc = WordCloud(width=2400, height=1200, max_words=100, mask=ar15)
+
+wc.generate_from_frequencies(fullTermsDict)
 
 # fig, axes = plt.subplot(1, 3)
 
