@@ -1,5 +1,7 @@
 import re
 import jieba
+from os import path
+import os
 from PIL import Image
 from jieba.analyse import *
 from openpyxl import load_workbook
@@ -9,12 +11,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.pyplot as plt
 import multidict
+from imageio import imread
 
-# jieba.suggest_freq('n', False)
-# jieba.suggest_freq('和', False)
-# jieba.suggest_freq('的', False)
-# jieba.suggest_freq('关键字', False)
-# jieba.suggest_freq('者', False)
 #读取excel文件工作表Sheet1
 workbook = load_workbook(r'exp/exp2/share/职位.xlsx')
 worksheet = workbook['Sheet1']
@@ -31,6 +29,7 @@ f = open(r'exp/exp2/output/职位信息.txt', 'r').read()
 g = re.sub('<.*?>', '', f)
 g = re.sub('nbsp', '', g)
 g = re.sub('  ', '', g)
+
 #清洗后数据写入新的txt
 h = open(r'exp/exp2/output/职位信息-清洗后.txt', 'w')
 h.write(g)
@@ -62,32 +61,34 @@ fullTermsDict = multidict.MultiDict()
 tmpDict = {}
 
 for text in outstr.split(' '):
-    if re.match('和|的|者|n|关键字', text):
+    if re.match('和|的|者|n|关键字|!|,|，|。|\\|1|2|3|4|5|6|7|8|9', text):
         continue
     val = tmpDict.get(text, 0)
     tmpDict[text] = val + 1
 for key in tmpDict:
     fullTermsDict.add(key, tmpDict[key])
     
+# bkg_color = imread(r'exp/exp4/ar15.png')
 #生成词云图
 #设置词云使用的字体
 # font = r'C:\Windows\Fonts\simsun.ttc'
 # wc = WordCloud(font_path=font, width=2400, height=1200, max_words=100)
 ar15 = np.array(Image.open(r'exp/exp4/ar15.png'))
 
-wc = WordCloud(width=2400, height=1200, max_words=100, mask=ar15)
+wc = WordCloud(font_path=r'exp/exp2/share/SourceHanSerifK-Light.otf', background_color="white", max_words=1000, width=400, height=500, mask=ar15)
 
 wc.generate_from_frequencies(fullTermsDict)
 
-# fig, axes = plt.subplot(1, 3)
-
 
 wc.to_file(r'exp/exp2/output/词云.jpg')
+
+color = wordcloud.ImageColorGenerator(ar15)
 plt.figure(dpi=100)
-plt.imshow(wc, interpolation='catrom')
+plt.imshow(ar15, interpolation='bilinear')
 plt.axis('off')
 plt.show()
 plt.close()
+wc.to_file(r'exp/exp2/output/词云1.jpg')
 
 #生成词频
 for keyword, weight in extract_tags(outstr, topK=50, withWeight=True, allowPOS=()):
