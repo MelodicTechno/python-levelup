@@ -30,7 +30,7 @@ for row in range(2, ws.max_row + 1):
     #在word中的第2个表格的（0，1）单元格插入图片
     table = doc.tables[1]
     run = table.cell(0,1).paragraphs[0].add_run('')
-    run.add_picture(r'share\qianzi.jpg', width=Inches(1), height=Inches(0.5))
+    run.add_picture(r'exp\exp2\output\qianzi-binary.png', width=Inches(1), height=Inches(0.5))
     #基于更新后的简历模板生成以对应公司命名的简历
     com_name = str(ws.cell(row=row, column=1).value)
     doc.save(r'exp\exp2\output\简历.docx')
