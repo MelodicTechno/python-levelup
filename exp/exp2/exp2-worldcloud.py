@@ -28,7 +28,7 @@ h.close()
 
 #生成词云
 #读取txt
-f = open(r'exp\exp2\output\职位信息-清洗后.txt', 'w', 'r', encoding='gbk').read()
+f = open(r'exp\exp2\output\职位信息-清洗后.txt', 'r', encoding='GBK').read()
 #分词
 sep_list = jieba.lcut(f)
 print('分词', type(sep_list), len(sep_list), sep_list)
