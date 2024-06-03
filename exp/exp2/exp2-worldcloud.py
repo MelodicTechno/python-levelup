@@ -73,22 +73,13 @@ for key in tmpDict:
 #设置词云使用的字体
 # font = r'C:\Windows\Fonts\simsun.ttc'
 # wc = WordCloud(font_path=font, width=2400, height=1200, max_words=100)
-ar15 = np.array(Image.open(r'exp/exp4/ar15.png'))
+ar15 = np.array(Image.open(r'exp/exp2/share/ST_AR-15_S.png'))
 
-wc = WordCloud(font_path=r'exp/exp2/share/SourceHanSerifK-Light.otf', background_color="white", max_words=1000, width=400, height=500, mask=ar15)
+wc = WordCloud(font_path=r'exp/exp2/share/SourceHanSerifK-Light.otf', background_color="white", max_words=10000, width=1024, height= 1024)
 
 wc.generate_from_frequencies(fullTermsDict)
 
-
 wc.to_file(r'exp/exp2/output/词云.jpg')
-
-color = wordcloud.ImageColorGenerator(ar15)
-plt.figure(dpi=100)
-plt.imshow(ar15, interpolation='bilinear')
-plt.axis('off')
-plt.show()
-plt.close()
-wc.to_file(r'exp/exp2/output/词云1.jpg')
 
 #生成词频
 for keyword, weight in extract_tags(outstr, topK=50, withWeight=True, allowPOS=()):
