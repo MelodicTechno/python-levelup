@@ -1,4 +1,6 @@
 from scipy import sparse
+from scipy.sparse import csgraph
+
 a = sparse.dok_matrix((10, 5))
 a[2, 3] = 1.0
 a[3, 3] = 2.0
@@ -30,3 +32,12 @@ print(w)
 #   (2, 3)        7.0
 #   (3, 0)        4.0
 #   (3, 2)        6.0
+
+dst_matrix, predecessors = csgraph.dijkstra(csgraph=w, directed=True,
+                            indices=0, return_predecessors=True)
+
+print(dst_matrix)
+print(predecessors)
+
+# [ 0. 10.  3. 10.]
+# [-9999     0     0     2]
