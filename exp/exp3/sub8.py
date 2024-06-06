@@ -1,5 +1,6 @@
 import numpy as np
 import scipy as sp
+import pylab as pl
 
 np.random.seed(42)
 t = np.random.uniform(0, 2 * np.pi, 60)
@@ -24,3 +25,14 @@ p = evectors[:, np.argmin(err)]
 print(p)
 
 # [-0.55214278  0.5580915  -0.23809922  0.54584559 -0.08350449 -0.14852803]
+
+def ellipse(p, x, y):
+    a, b, c, d, e, f = p
+    return a*x**2 + b*x*y + c*y**2 + d*x + e*y + f
+
+X, Y = np.mgrid[0:2:100j, 0:2:100j]
+Z = ellipse(p, X, Y)
+pl.plot(x, y, 'ro', alpha=0.5)
+pl.contour(X, Y, Z, levelz=[0])
+pl.savefig(r'exp/exp3/output/sub8.jpg')
+pl.show()
