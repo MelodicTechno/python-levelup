@@ -5,13 +5,15 @@ import os
 from PIL import Image
 from jieba.analyse import *
 from openpyxl import load_workbook
-from wordcloud import WordCloud
+from wordcloud import WordCloud, ImageColorGenerator
 import wordcloud
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.pyplot as plt
 import multidict
 from imageio import imread
+
+font_path = r'exp/exp2/share/SourceHanSerifK-Light.otf'
 
 #读取excel文件工作表Sheet1
 workbook = load_workbook(r'exp/exp2/share/职位.xlsx')
@@ -56,30 +58,30 @@ outstr = jieba.lcut(outstr)
 outstr = ' '.join(outstr)
 print('再次分词后', type(outstr), outstr)
 
-# add to dict
-fullTermsDict = multidict.MultiDict()
-tmpDict = {}
-
-for text in outstr.split(' '):
-    if re.match('和|的|者|n|关键字|!|,|，|。|\\|1|2|3|4|5|6|7|8|9', text):
-        continue
-    val = tmpDict.get(text, 0)
-    tmpDict[text] = val + 1
-for key in tmpDict:
-    fullTermsDict.add(key, tmpDict[key])
     
-# bkg_color = imread(r'exp/exp4/ar15.png')
-#生成词云图
-#设置词云使用的字体
-# font = r'C:\Windows\Fonts\simsun.ttc'
-# wc = WordCloud(font_path=font, width=2400, height=1200, max_words=100)
-ar15 = np.array(Image.open(r'exp/exp2/share/ST_AR-15_S.png'))
+imagename = r'exp/exp2/share/ar15.jpg'
+back_coloring = imread(imagename)
 
-wc = WordCloud(font_path=r'exp/exp2/share/SourceHanSerifK-Light.otf', background_color="white", max_words=10000, width=1024, height= 1024)
 
-wc.generate_from_frequencies(fullTermsDict)
+wc = WordCloud(font_path=font_path, background_color="white", max_words=2000,
+ mask=back_coloring, max_font_size=100, random_state=42, 
+ width=1000, height=860, margin=2)
 
-wc.to_file(r'exp/exp2/output/词云.jpg')
+wc.generate(outstr)
+
+image_colors_byImg = ImageColorGenerator(back_coloring)
+
+# show
+# we could also give color_func=image_colors directly in the constructor
+plt.imshow(wc.recolor(color_func=image_colors_byImg), interpolation="bilinear")
+plt.axis("off")
+plt.figure()
+plt.imshow(back_coloring, interpolation="bilinear")
+plt.axis("off")
+plt.show()
+
+# save wordcloud
+wc.to_file(r'exp/exp2/output/wordcloud.png')
 
 #生成词频
 for keyword, weight in extract_tags(outstr, topK=50, withWeight=True, allowPOS=()):
