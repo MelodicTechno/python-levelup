@@ -49,7 +49,7 @@ def extract_data(the_browser, html_code):
 def get_pages(keyword, city, start, end):
     
     # 声明要模拟的浏览器是Chrome,并启用无界面浏览模式
-    chrome_options = webdriver.ChromeOptions()
+    chrome_options = webdriver.ChromeOptions('chromedriver.exe')
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     browser = webdriver.Chrome(options=chrome_options)
     # wait 10s if necessary
